@@ -1,44 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pfalli <pfalli@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 15:10:16 by pfalli            #+#    #+#             */
-/*   Updated: 2024/06/11 16:05:24 by pfalli           ###   ########.fr       */
+/*   Created: 2023/12/04 14:09:04 by pfalli            #+#    #+#             */
+/*   Updated: 2024/02/14 13:32:37 by pfalli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "libft.h"
 
-// check if digits and bigger than 0 
-int check_arguments(char *av)
+void	ft_putnbr_fd(int n, int fd)
 {
-    int i = 0;
+	int	digit;
 
-    while (av[i])
-    {
-        if (!is_digit(av[i]))
-            return(0);
-        i++;
-    }
-    return(1);
-}
-
-void init(t_philo philo)
-{
-    philo->
-    philo->
-    philo->
-}
-
-int main (int ac, char **av)
-{
-    if (ac == 5)
-    {
-        
-    }
-    else
-        printf("Error: only 5 parameters allowed\n")
+	digit = 0;
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else if (n < 0)
+	{
+		write(fd, "-", 1);
+		n = -n;
+		ft_putnbr_fd(n, fd);
+	}
+	else
+	{
+		if (n > 9)
+		{
+			ft_putnbr_fd(n / 10, fd);
+			ft_putnbr_fd(n % 10, fd);
+		}
+		else
+		{
+			digit = n + 48;
+			write(fd, &digit, 1);
+		}
+	}
 }
