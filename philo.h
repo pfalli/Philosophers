@@ -5,64 +5,80 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pfalli <pfalli@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 15:10:12 by pfalli            #+#    #+#             */
-/*   Updated: 2024/06/11 16:02:08 by pfalli           ###   ########.fr       */
+/*   Created: 2024/08/09 14:59:46 by pfalli            #+#    #+#             */
+/*   Updated: 2024/08/09 14:59:46 by pfalli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
- #define PHILO_H
+# define PHILO_H
 
-#include <unistd.h>
-#include <sys/time.h> // gettimeofday
-#include <stdlib.h> // malloc and others
-#include <stdio.h> // printf
-#include <stdint.h> // u_int64
-#include <pthread.h> // ****it works on WSL***
+# include "libft_full/inc/libft.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <stdbool.h>
 
 //	philo_msg
-# define TAKE_FORKS "has taken a fork"
+# define TAKE_FORK "has taken a fork"
 # define THINKING "is thinking"
 # define SLEEPING "is sleeping"
 # define EATING "is eating"
 # define DIED "died"
+# define LEAVE_FORKS "has put down forks"
 
-// struct of each philo. save info regarding each philo. the info will be adjust everytime by the thread data->philos[i].""
+
+typedef struct s_info
+{
+	int				num_philo;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				must_eat;
+	int				got_food;
+	int				death;
+	unsigned long	start_time;
+
+	int stop;
+    pthread_t check_death;
+	pthread_mutex_t stop_lock;
+
+	pthread_mutex_t sleep_lock;
+	pthread_mutex_t	meal_lock;
+	pthread_mutex_t print_lock;
+	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	*forks_lock; // same number of philos
+	struct s_philo	*philo_array;
+
+}										t_info;
+
 typedef struct s_philo
 {
-	struct s_data	*data;
-	pthread_t       thread;
+	int				id;
+	pthread_t		philo_thread;
+	unsigned long	last_meal_time;
+	int				meals_eaten;
+	t_info			*info;
 
-	int             count_meals;
-	int				last_meal; // time
-
-	int             id;
-	int             id_next;
-
-	pthread_mutex_t	*fork;
-
-} t_philo;
-
-typedef struct s_data
-{
-	t_philo         *philos;
-
-	int             philo_num;
-	int             meals_num;
-	u_int64_t       time_die;
-	u_int64_t       time_eat;
-	u_int64_t       time_sleep;
-	
-	pthread_mutex_t *forks_mutex;
-	pthread_mutex_t eat_mutex;
-	pthread_mutex_t print_mutex;
-
-	int             dead;
-	int             finished;
-	pthread_t       *tid;
-	u_int64_t       start_time;
-} t_data;
+}										t_philo;
 
 
+int				get_info(int ac, char **av, t_info **info);
+int				init_mutex(t_info *info);
+int				run_philo(t_info *info);
+void			ft_print_action(t_philo *philo, char *action);
+void 			*routine (void *argument);
+void			free_info(t_info *info);
+int 			philo_alive(t_philo *philo);
+void 			lock_forks(t_philo *philo);
+void			*monitor(void *pointer);
+void stop_philosophers(t_info *info, t_philo *philo_array, int num_philo);
+
+int             one_and_print(char *message);
+unsigned long	get_time_in_ms(void);
+int				ft_isnum(char *str);
+int				ft_usleep(useconds_t time);
 
 #endif

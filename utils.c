@@ -5,49 +5,48 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pfalli <pfalli@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 14:34:18 by pfalli            #+#    #+#             */
-/*   Updated: 2024/06/12 14:34:18 by pfalli           ###   ########.fr       */
+/*   Created: 2024/08/09 15:14:53 by pfalli            #+#    #+#             */
+/*   Updated: 2024/08/09 15:14:53 by pfalli           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int error(char *str)
+int one_and_print(char *message)
 {
-	printf("%s\n", str);
-	return(1);
+    printf("%s\n", message);
+    return(1);
 }
 
-// 00:00:00, January 1, 1970 (Unix Epoch)
-int main()
+unsigned long	get_time_in_ms(void)
 {
-    struct timeval current_time;
-    gettimeofday(&current_time, NULL);
-    printf("seconds : %ld\nmicro seconds : %ld\n", current_time.tv_sec, current_time.tv_usec);
+	struct timeval	tv;
 
-    return 0;
+	if (gettimeofday(&tv, NULL) != 0)
+		return (0);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-int	ft_usleep(size_t milliseconds)
+int	ft_isnum(char *str)
 {
-	size_t	start;
+	int	index;
 
-	start = get_current_time();
-	while ((get_current_time() - start) < milliseconds)
-		usleep(500);
-	return (0);
+	index = 0;
+	while (str[index])
+	{
+		if (!ft_isdigit(str[index]))
+			return (0);
+		index++;
+	}
+	return (1);
 }
 
-
-// Gets the current time in milliseconds
-
-size_t	get_current_time(void)
+int	ft_usleep(useconds_t time)
 {
-	struct timeval	time;
-
-	if (gettimeofday(&time, NULL) == -1)
-		write(2, "gettimeofday() error\n", 22);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	u_int64_t	start;
+	start = get_time_in_ms();
+	while ((get_time_in_ms() - start) < time)
+		ft_usleep(time / 10);
+	return(0);
 }
-
 
