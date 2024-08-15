@@ -25,9 +25,6 @@ int	init_mutex(t_info *info)
 		return (one_and_print("error mutex print_lock\n"));
 	if (pthread_mutex_init(&(info->dead_lock), NULL) != 0)
 		return (one_and_print("error mutex dead_lock\n"));
-	info->stop = 0;
-	if (pthread_mutex_init(&info->stop_lock, NULL) != 0)
-		return (one_and_print("error mutex stop_lock\n"));
 	// init forks_locks
 	info->forks_lock = malloc(sizeof(pthread_mutex_t) * info->num_philo);
 	if (!info->forks_lock)

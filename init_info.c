@@ -25,7 +25,6 @@ int init_info(t_info **info)
     (*info)->got_food = 0;
     (*info)->death = 0;
     (*info)->start_time = 0;
-    (*info)->stop = 0;
     (*info)->forks_lock = NULL;
     return(0);
 }

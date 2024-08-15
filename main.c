@@ -34,6 +34,7 @@ void	free_info(t_info *info)
 		}
 		if (info->philo_array)
 			free(info->philo_array);
+        pthread_mutex_destroy(&info->stop_lock);
 		free(info);
 	}
 }

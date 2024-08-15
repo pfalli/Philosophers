@@ -38,11 +38,12 @@ typedef struct s_info
 	int				time_sleep;
 	int				must_eat;
 	int				got_food;
-	int				death;
+	
 	unsigned long	start_time;
 
+	int				death;
 	int stop;
-    pthread_t check_death;
+    pthread_t death_thread;
 	pthread_mutex_t stop_lock;
 
 	pthread_mutex_t sleep_lock;
@@ -60,6 +61,7 @@ typedef struct s_philo
 	pthread_t		philo_thread;
 	unsigned long	last_meal_time;
 	int				meals_eaten;
+	int				philo_death;
 	t_info			*info;
 
 }										t_philo;
