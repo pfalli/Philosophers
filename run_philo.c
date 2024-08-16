@@ -39,7 +39,7 @@ int philo_alive(t_philo *philo)
     return (1);
 }
 
-
+// *** add philo_eaten *** //
 void *routine (void *argument)
 {
     t_philo *philo;
@@ -56,11 +56,11 @@ void *routine (void *argument)
 
     while (!stop_routine)
     {
-        if ((philo_alive(philo) == 0))
+        if ((philo_alive(philo) == 0)) // *** add philo_eaten *** //
             break;
 
         // Take forks
-        if ((philo_alive(philo) == 1))
+        if ((philo_alive(philo) == 1)) // *** add philo_eaten *** //
             lock_forks(philo);
 
         // Eat
