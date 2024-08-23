@@ -1,7 +1,7 @@
 NAME	=  philo
 
-CC			= gcc -lpthread -fsanitize=address
-CFLAGS		= -Wall -Werror -Wextra
+CC			= gcc # -lpthread -fsanitize=address -g
+CFLAGS		= -Wall -Werror -Wextra 
 RM			= rm -rf
 
 LIBFT = ./libft_full/libft.a

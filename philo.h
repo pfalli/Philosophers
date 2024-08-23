@@ -70,7 +70,7 @@ void				free_mutex(char *str, t_info *info);
 void	init_info(t_info *info, t_philo *philos, char **av);
 void	init_forks(t_info *info, int philo_num); // Update signature
 void	init_philo(t_philo *philos, t_info *info, char **av); // Update signature
-void				init_input(t_philo *philo, char **av);
+void				init_av(t_philo *philo, char **av);
 
 // Threads
 int					run_threads(t_info *info);

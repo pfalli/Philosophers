@@ -14,7 +14,7 @@
 
 // Initializing the input from user
 
-void	init_input(t_philo *philo, char **av)
+void	init_av(t_philo *philo, char **av)
 {
     philo->num_of_philo = ft_atoi(av[1]);
 	philo->time_to_die = ft_atoi(av[2]);
@@ -33,7 +33,7 @@ void	init_philo(t_philo *philo, t_info *info, char **av)
     i = 0;
     while (i < ft_atoi(av[1]))
     {
-        init_input(&philo[i], av);
+        init_av(&philo[i], av);
         philo[i].id = i + 1;
         philo[i].eating = 0;
         philo[i].meals_eaten = 0;
