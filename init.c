@@ -14,29 +14,29 @@
 
 // Initializing the input from user
 
-void	init_input(t_philo *philo, char **argv)
+void	init_input(t_philo *philo, char **av)
 {
-	philo->time_to_die = ft_atoi(argv[2]);
-	philo->time_to_eat = ft_atoi(argv[3]);
-	philo->time_to_sleep = ft_atoi(argv[4]);
-	philo->num_of_philo = ft_atoi(argv[1]);
-	if (argv[5])
-		philo->num_times_to_eat = ft_atoi(argv[5]);
+    philo->num_of_philo = ft_atoi(av[1]);
+	philo->time_to_die = ft_atoi(av[2]);
+	philo->time_to_eat = ft_atoi(av[3]);
+	philo->time_to_sleep = ft_atoi(av[4]);
+	if (av[5])
+		philo->num_times_to_eat = ft_atoi(av[5]);
 	else
 		philo->num_times_to_eat = -1;
 }
 
-void	init_philo(t_philo *philo, t_info *info, char **argv)
+void	init_philo(t_philo *philo, t_info *info, char **av)
 {
     int	i;
 
     i = 0;
-    while (i < ft_atoi(argv[1]))
+    while (i < ft_atoi(av[1]))
     {
+        init_input(&philo[i], av);
         philo[i].id = i + 1;
         philo[i].eating = 0;
         philo[i].meals_eaten = 0;
-        init_input(&philo[i], argv);
         philo[i].start_time = get_time_in_ms();
         philo[i].last_meal = get_time_in_ms();
         philo[i].write_lock = &info->write_lock;
@@ -52,25 +52,20 @@ void	init_philo(t_philo *philo, t_info *info, char **argv)
     }
 }
 
-// Initializing the forks mutexes
-void	init_forks(t_info *info, int philo_num)
-{
-    int	i;
-
-    i = 0;
-    while (i < philo_num)
-    {
-        pthread_mutex_init(&info->forks[i], NULL);
-        i++;
-    }
-}
-
 // Initializing the info structure
-void	init_info(t_info *info, t_philo *philo)
+void	init_info(t_info *info, t_philo *philo, char **av)
 {
+    int i = 0;
+
     info->dead_flag = 0;
     info->philo = philo;
     pthread_mutex_init(&info->write_lock, NULL);
     pthread_mutex_init(&info->dead_lock, NULL);
     pthread_mutex_init(&info->meal_lock, NULL);
+    info->philo_num = ft_atoi(av[1]);
+    while (i < info->philo_num)
+    {
+        pthread_mutex_init(&info->forks[i], NULL);
+        i++;
+    }
 }

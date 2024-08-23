@@ -86,10 +86,10 @@ int					check_av(int ac, char **av);
 void				destory_all(char *str, t_info *info);
 
 // Initialization
-void	init_info(t_info *info, t_philo *philos);
+void	init_info(t_info *info, t_philo *philos, char **av);
 void	init_forks(t_info *info, int philo_num); // Update signature
-void	init_philo(t_philo *philos, t_info *info, char **argv); // Update signature
-void				init_input(t_philo *philo, char **argv);
+void	init_philo(t_philo *philos, t_info *info, char **av); // Update signature
+void				init_input(t_philo *philo, char **av);
 
 // Threads
 int					thread_create(t_info *info);

@@ -44,8 +44,7 @@ int	main(int ac, char **av)
     t_philo		philo[PHILO_MAX];
 
     check_av(ac, av);
-    init_info(&info, philo);
-    init_forks(&info, ft_atoi(av[1])); // Pass info instead of forks
+    init_info(&info, philo, av);
     init_philo(philo, &info, av);
     thread_create(&info);
     destory_all(NULL, &info);
