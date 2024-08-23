@@ -46,7 +46,7 @@ int	main(int ac, char **av)
     check_av(ac, av);
     init_info(&info, philo, av);
     init_philo(philo, &info, av);
-    thread_create(&info);
+    run_threads(&info);
     destory_all(NULL, &info);
     return (0);
 }

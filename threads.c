@@ -43,7 +43,7 @@ void	*philo_routine(void *pointer)
 
 // Creates all the threads
 
-int	thread_create(t_info *info)
+int	run_threads(t_info *info)
 {
     pthread_t	observer;
     int			i;

@@ -46,9 +46,9 @@ void	destory_all(char *str, t_info *info)
     pthread_mutex_destroy(&info->write_lock);
     pthread_mutex_destroy(&info->meal_lock);
     pthread_mutex_destroy(&info->dead_lock);
-    while (i < info->philo[0].num_of_philo)
+    while (i < info->philo_num)
     {
-        pthread_mutex_destroy(&info->forks[i]);
+        pthread_mutex_destroy(&info->forks_lock[i]);
         i++;
     }
 }

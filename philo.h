@@ -77,7 +77,7 @@ typedef struct s_info
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	write_lock;
-	pthread_mutex_t	forks[PHILO_MAX];
+	pthread_mutex_t	forks_lock[PHILO_MAX];
 	t_philo			*philo;
 }					t_info;
 
@@ -92,7 +92,7 @@ void	init_philo(t_philo *philos, t_info *info, char **av); // Update signature
 void				init_input(t_philo *philo, char **av);
 
 // Threads
-int					thread_create(t_info *info);
+int					run_threads(t_info *info);
 void				*monitor(void *pointer);
 void				*philo_routine(void *pointer);
 

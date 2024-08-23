@@ -43,11 +43,11 @@ void	init_philo(t_philo *philo, t_info *info, char **av)
         philo[i].dead_lock = &info->dead_lock;
         philo[i].meal_lock = &info->meal_lock;
         philo[i].dead = &info->dead_flag;
-        philo[i].l_fork = &info->forks[i];
+        philo[i].l_fork = &info->forks_lock[i];
         if (i == 0)
-            philo[i].r_fork = &info->forks[philo[i].num_of_philo - 1];
+            philo[i].r_fork = &info->forks_lock[philo[i].num_of_philo - 1];
         else
-            philo[i].r_fork = &info->forks[i - 1];
+            philo[i].r_fork = &info->forks_lock[i - 1];
         i++;
     }
 }
@@ -65,7 +65,7 @@ void	init_info(t_info *info, t_philo *philo, char **av)
     info->philo_num = ft_atoi(av[1]);
     while (i < info->philo_num)
     {
-        pthread_mutex_init(&info->forks[i], NULL);
+        pthread_mutex_init(&info->forks_lock[i], NULL);
         i++;
     }
 }
