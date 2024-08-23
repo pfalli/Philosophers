@@ -61,24 +61,24 @@ int	check_if_dead(t_philo *philo)
 
 // Checks if all the philo ate the num_of_meals
 
-int	check_if_all_ate(t_philo *philo)
+int	all_got_food(t_philo *philo)
 {
 	int	i;
-	int	finished_eating;
+	int	ate;
 
 	i = 0;
-	finished_eating = 0;
+	ate = 0;
 	if (philo[0].num_times_to_eat == -1)
 		return (0);
 	while (i < philo[0].num_of_philo)
 	{
 		pthread_mutex_lock(philo[i].meal_lock);
 		if (philo[i].meals_eaten >= philo[i].num_times_to_eat)
-			finished_eating++;
+			ate++;
 		pthread_mutex_unlock(philo[i].meal_lock);
 		i++;
 	}
-	if (finished_eating == philo[0].num_of_philo)
+	if (ate == philo[0].num_of_philo)
 	{
 		pthread_mutex_lock(philo[0].dead_lock);
 		*philo->dead = 1;
@@ -96,7 +96,7 @@ void	*monitor(void *pointer)
 
 	philo = (t_philo *)pointer;
 	while (1)
-		if (check_if_dead(philo) == 1 || check_if_all_ate(philo) == 1)
+		if (check_if_dead(philo) == 1 || all_got_food(philo) == 1)
 			break ;
 	return (pointer);
 }

@@ -39,7 +39,7 @@ void	init_philo(t_philo *philo, t_info *info, char **av)
         philo[i].meals_eaten = 0;
         philo[i].start_time = get_time_in_ms();
         philo[i].last_meal = get_time_in_ms();
-        philo[i].write_lock = &info->write_lock;
+        philo[i].write_lock = &info->print_lock;
         philo[i].dead_lock = &info->dead_lock;
         philo[i].meal_lock = &info->meal_lock;
         philo[i].dead = &info->dead_flag;
@@ -59,7 +59,7 @@ void	init_info(t_info *info, t_philo *philo, char **av)
 
     info->dead_flag = 0;
     info->philo = philo;
-    pthread_mutex_init(&info->write_lock, NULL);
+    pthread_mutex_init(&info->print_lock, NULL);
     pthread_mutex_init(&info->dead_lock, NULL);
     pthread_mutex_init(&info->meal_lock, NULL);
     info->philo_num = ft_atoi(av[1]);

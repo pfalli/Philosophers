@@ -47,6 +47,6 @@ int	main(int ac, char **av)
     init_info(&info, philo, av);
     init_philo(philo, &info, av);
     run_threads(&info);
-    destory_all(NULL, &info);
+    free_mutex(NULL, &info);
     return (0);
 }

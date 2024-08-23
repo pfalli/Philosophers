@@ -14,7 +14,7 @@
 
 int one_and_print(char *message)
 {
-    printf("%s\n", message);
+    ft_printf("%s\n", message);
     return(1);
 }
 
@@ -33,17 +33,14 @@ int	ft_isnum(char *str)
 	return (1);
 }
 
-void	destory_all(char *str, t_info *info)
+void	free_mutex(char *str, t_info *info)
 {
     int	i;
 
     i = 0;
     if (str)
-    {
-        write(2, str, ft_strlen(str));
-        write(2, "\n", 1);
-    }
-    pthread_mutex_destroy(&info->write_lock);
+		ft_printf("%s\n", str);
+    pthread_mutex_destroy(&info->print_lock);
     pthread_mutex_destroy(&info->meal_lock);
     pthread_mutex_destroy(&info->dead_lock);
     while (i < info->philo_num)

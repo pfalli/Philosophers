@@ -14,6 +14,7 @@
 # define PHILO_H
 
 # include "libft_full/inc/libft.h"
+# include "libft_full/inc/ft_printf.h"
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -24,27 +25,7 @@
 # include <pthread.h>
 # include <sys/wait.h>
 
-/* errors */
-# define WRONG_NUM_ARGS "❌ Error: Wrong number of arguments"
-# define WRONG_ARG_TYPE "❌ Error: Numeric arguments required"
-# define NUM_PHILO "❌ Error: Number of philosophers must be at least 1"
-# define DIE_TIME "❌ Error: Time to die must be at least 1"
-# define EAT_TIME "❌ Error: Time to eat must be at least 1"
-# define SLEEP_TIME "❌ Error: Time to sleep must be at least 1"
-# define NUM_EAT "❌ Error: Number of times to eat must be at least 1"
-# define MALLOC_FAIL "❌ Error: Malloc failed"
-# define THREAD_CREATE_FAIL "❌ Error: Thread create failed"
-# define THREAD_JOIN_FAIL "❌ Error: Thread join failed"
-# define MUTEX_FAIL "❌ Error: Mutex failed"
-# define TIME_FAIL "❌ Error: Time failed"
-# define FORK_FAIL "❌ Error: Fork failed"
-# define JOIN_FAIL "❌ Error: Join failed"
-# define UNLOCK_FAIL "❌ Error: Unlock failed"
-# define LOCK_FAIL "❌ Error: Lock failed"
-# define MALLOC_FAIL "❌ Error: Malloc failed"
-
 # define PHILO_MAX 300
-
 
 typedef struct s_philo
 {
@@ -76,14 +57,14 @@ typedef struct s_info
 	int 			philo_num;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
-	pthread_mutex_t	write_lock;
+	pthread_mutex_t	print_lock;
 	pthread_mutex_t	forks_lock[PHILO_MAX];
 	t_philo			*philo;
 }					t_info;
 
 // Main functions
 int					check_av(int ac, char **av);
-void				destory_all(char *str, t_info *info);
+void				free_mutex(char *str, t_info *info);
 
 // Initialization
 void	init_info(t_info *info, t_philo *philos, char **av);
@@ -94,7 +75,7 @@ void				init_input(t_philo *philo, char **av);
 // Threads
 int					run_threads(t_info *info);
 void				*monitor(void *pointer);
-void				*philo_routine(void *pointer);
+void				*routine(void *pointer);
 
 // Actions
 void				eat(t_philo *philo);
@@ -103,7 +84,7 @@ void				think(t_philo *philo);
 
 // Monitor utils
 int					dead_loop(t_philo *philo);
-int					check_if_all_ate(t_philo *philos);
+int					all_got_food(t_philo *philos);
 int					check_if_dead(t_philo *philos);
 int					philoopher_dead(t_philo *philo, int time_to_die);
 
