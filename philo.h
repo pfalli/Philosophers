@@ -14,73 +14,109 @@
 # define PHILO_H
 
 # include "libft_full/inc/libft.h"
+# include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <pthread.h>
+# include <signal.h>
+# include <stdlib.h>
 # include <sys/time.h>
-# include <stdbool.h>
+# include <pthread.h>
+# include <sys/wait.h>
 
-//	philo_msg
-# define TAKE_FORK "has taken a fork"
-# define THINKING "is thinking"
-# define SLEEPING "is sleeping"
-# define EATING "is eating"
-# define DIED "died"
-# define LEAVE_FORKS "has put down forks"
+/* errors */
+# define WRONG_NUM_ARGS "❌ Error: Wrong number of arguments"
+# define WRONG_ARG_TYPE "❌ Error: Numeric arguments required"
+# define NUM_PHILO "❌ Error: Number of philosophers must be at least 1"
+# define DIE_TIME "❌ Error: Time to die must be at least 1"
+# define EAT_TIME "❌ Error: Time to eat must be at least 1"
+# define SLEEP_TIME "❌ Error: Time to sleep must be at least 1"
+# define NUM_EAT "❌ Error: Number of times to eat must be at least 1"
+# define MALLOC_FAIL "❌ Error: Malloc failed"
+# define THREAD_CREATE_FAIL "❌ Error: Thread create failed"
+# define THREAD_JOIN_FAIL "❌ Error: Thread join failed"
+# define MUTEX_FAIL "❌ Error: Mutex failed"
+# define TIME_FAIL "❌ Error: Time failed"
+# define FORK_FAIL "❌ Error: Fork failed"
+# define JOIN_FAIL "❌ Error: Join failed"
+# define UNLOCK_FAIL "❌ Error: Unlock failed"
+# define LOCK_FAIL "❌ Error: Lock failed"
+# define MALLOC_FAIL "❌ Error: Malloc failed"
 
+# define PHILO_MAX 300
 
-typedef struct s_info
-{
-	int				num_philo;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
-	int				must_eat;
-	int				got_food;
-	
-	unsigned long	start_time;
-
-	int				death;
-	int stop;
-    pthread_t death_thread;
-	pthread_mutex_t stop_lock;
-
-	pthread_mutex_t sleep_lock;
-	pthread_mutex_t	meal_lock;
-	pthread_mutex_t print_lock;
-	pthread_mutex_t	dead_lock;
-	pthread_mutex_t	*forks_lock; // same number of philos
-	struct s_philo	*philo_array;
-
-}										t_info;
 
 typedef struct s_philo
 {
-	int				id;
-	pthread_t		philo_thread;
-	unsigned long	last_meal_time;
-	int				meals_eaten;
-	int				philo_death;
-	t_info			*info;
+	pthread_t			thread;
+	int					id;
+	int					eating;
+	int					meals_eaten;
 
-}										t_philo;
+	unsigned long		last_meal;
+	int					time_to_die;
+	int					time_to_eat;
+	int					time_to_sleep;
+	unsigned long		start_time;
 
+	int					num_of_philo;
+	int					num_times_to_eat;
+	int					*dead;
+	pthread_mutex_t		*r_fork;
+	pthread_mutex_t		*l_fork;
+	pthread_mutex_t		*write_lock;
+	pthread_mutex_t		*dead_lock;
+	pthread_mutex_t		*meal_lock;
+	
+}					t_philo;
 
-int				get_info(int ac, char **av, t_info **info);
-int				init_mutex(t_info *info);
-int				run_philo(t_info *info);
-void			ft_print_action(t_philo *philo, char *action);
-void 			*routine (void *argument);
-void			free_info(t_info *info);
-int 			philo_alive(t_philo *philo);
-void 			lock_forks(t_philo *philo);
-void			*monitor(void *pointer);
-void stop_philosophers(t_info *info, t_philo *philo_array, int num_philo);
+typedef struct s_info
+{
+	int				dead_flag;
+	int 			philo_num;
+	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	write_lock;
+	t_philo			*philo;
+}					t_info;
 
-int             one_and_print(char *message);
-unsigned long	get_time_in_ms(void);
-int				ft_isnum(char *str);
-int				ft_usleep(useconds_t time);
+// Main functions
+int					check_av(int ac, char **av);
+void				destory_all(char *str, t_info *info,
+						pthread_mutex_t *forks);
+
+// Initialization
+void				init_info(t_info *info, t_philo *philos);
+void				init_forks(pthread_mutex_t *forks, int philo_num);
+void				init_philo(t_philo *philos, t_info *info,
+						pthread_mutex_t *forks, char **argv);
+void				init_input(t_philo *philo, char **argv);
+
+// Threads
+int					thread_create(t_info *info, pthread_mutex_t *forks);
+void				*monitor(void *pointer);
+void				*philo_routine(void *pointer);
+
+// Actions
+void				eat(t_philo *philo);
+void				dream(t_philo *philo);
+void				think(t_philo *philo);
+
+// Monitor utils
+int					dead_loop(t_philo *philo);
+int					check_if_all_ate(t_philo *philos);
+int					check_if_dead(t_philo *philos);
+int					philoopher_dead(t_philo *philo, int time_to_die);
+
+// Utils
+int	ft_usleep(useconds_t time);
+void				print_message(char *str, t_philo *philo, int id);
+unsigned long			get_time_in_ms(void);
+int one_and_print(char *message);
+int	ft_isnum(char *str);
+
+// put in fd
+int					has_only_digits(char *s);
+void				ft_putendl_fd(char *s, int fd);
 
 #endif

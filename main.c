@@ -12,66 +12,43 @@
 
 #include "philo.h"
 
-void	free_info(t_info *info)
-{
-	int	index;
 
-	index = 0;
-	if (info)
-	{
-		if (info->forks_lock)
-		{
-			while (index < info->num_philo)
-			{
-				pthread_mutex_destroy(&(info->forks_lock[index]));
-                pthread_mutex_destroy(&info->print_lock);
-	            pthread_mutex_destroy(&info->meal_lock);
-	            pthread_mutex_destroy(&info->dead_lock);
-                pthread_mutex_destroy(&info->sleep_lock);
-				index++;
-			}
-			free(info->forks_lock);
-		}
-		if (info->philo_array)
-			free(info->philo_array);
-        pthread_mutex_destroy(&info->stop_lock);
-		free(info);
-	}
+int check_av(int ac, char **av)
+{
+    int i = 1;
+
+    if (ac < 5 || ac > 6)
+        return(one_and_print("only 4 o 5 arguments\n"));
+    while (i < ac)
+    {
+        if (av[i][0] == '-')
+            return(one_and_print("only positive number\n"));
+        if (!ft_isnum(av[i]))
+            return(one_and_print("only numbers no letters\n"));
+        if (ft_strlen(av[1]) == 0 || ft_atoi(av[i]) == 0)
+            return(one_and_print("args empty\n"));
+        if ( i == 1 && atoi(av[1]) == 0)
+            return(one_and_print("at least 1 philo\n"));
+        if (atoi(av[1]) > 9999)
+            return(one_and_print("too many philo\n"));
+        i++; 
+    }
+    return(0);
 }
 
+// Main function
 
-void print_av(t_info *info)
+int	main(int ac, char **av)
 {
-    printf("num_philo: %d\n", info->num_philo);
-    printf("time_die: %d\n", info->time_die);
-    printf("time_eat: %d\n", info->time_eat);
-    printf("time_sleep: %d\n", info->time_sleep);
-    printf("must_eat: %d\n", info->must_eat);
-    printf("start_time: %ld\n", info->start_time);
-}
+	t_info		info;
+	t_philo			philo[PHILO_MAX];
+	pthread_mutex_t	forks[PHILO_MAX];
 
-int main(int ac, char **av)
-{
-    t_info *info;
-    int result = 0;
-
-    result = get_info(ac, av, &info);
-    if (result != 0)
-    {
-        free_info(info);
-        return(one_and_print("get_info issue\n"));
-    }
-    print_av(info);
-    printf("\n*** running info***\n");
-
-    result = init_mutex(info);
-    if (result != 0)
-    {
-        free_info(info);
-        return(one_and_print("init_mutex issue\n"));
-    }
-
-    result = run_philo(info);
-    free_info(info);
-    return(result);
+	check_av(ac, av);
+	init_info(&info, philo);
+	init_forks(forks, ft_atoi(av[1]));
+	init_philo(philo, &info, forks, av);
+	thread_create(&info, forks);
+	destory_all(NULL, &info, forks);
+	return (0);
 }
