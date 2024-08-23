@@ -19,11 +19,11 @@ void	print_message(char *str, t_philo *philo, int id)
 {
 	unsigned long	time;
 
-	pthread_mutex_lock(philo->write_lock);
+	pthread_mutex_lock(philo->print_lock);
 	time = get_time_in_ms() - philo->start_time;
 	if (!dead_loop(philo))
 		printf("%ld %d %s\n", time, id, str);
-	pthread_mutex_unlock(philo->write_lock);
+	pthread_mutex_unlock(philo->print_lock);
 }
 
 

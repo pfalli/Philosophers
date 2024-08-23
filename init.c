@@ -39,7 +39,7 @@ void	init_philo(t_philo *philo, t_info *info, char **av)
         philo[i].meals_eaten = 0;
         philo[i].start_time = get_time_in_ms();
         philo[i].last_meal = get_time_in_ms();
-        philo[i].write_lock = &info->print_lock;
+        philo[i].print_lock = &info->print_lock;
         philo[i].dead_lock = &info->dead_lock;
         philo[i].meal_lock = &info->meal_lock;
         philo[i].dead = &info->dead_flag;
