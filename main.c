@@ -40,15 +40,14 @@ int check_av(int ac, char **av)
 
 int	main(int ac, char **av)
 {
-	t_info		info;
-	t_philo			philo[PHILO_MAX];
-	pthread_mutex_t	forks[PHILO_MAX];
+    t_info		info;
+    t_philo		philo[PHILO_MAX];
 
-	check_av(ac, av);
-	init_info(&info, philo);
-	init_forks(forks, ft_atoi(av[1]));
-	init_philo(philo, &info, forks, av);
-	thread_create(&info, forks);
-	destory_all(NULL, &info, forks);
-	return (0);
+    check_av(ac, av);
+    init_info(&info, philo);
+    init_forks(&info, ft_atoi(av[1])); // Pass info instead of forks
+    init_philo(philo, &info, av);
+    thread_create(&info);
+    destory_all(NULL, &info);
+    return (0);
 }

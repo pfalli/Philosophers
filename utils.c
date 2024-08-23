@@ -33,24 +33,24 @@ int	ft_isnum(char *str)
 	return (1);
 }
 
-void	destory_all(char *str, t_info *info, pthread_mutex_t *forks)
+void	destory_all(char *str, t_info *info)
 {
-	int	i;
+    int	i;
 
-	i = 0;
-	if (str)
-	{
-		write(2, str, ft_strlen(str));
-		write(2, "\n", 1);
-	}
-	pthread_mutex_destroy(&info->write_lock);
-	pthread_mutex_destroy(&info->meal_lock);
-	pthread_mutex_destroy(&info->dead_lock);
-	while (i < info->philo[0].num_of_philo)
-	{
-		pthread_mutex_destroy(&forks[i]);
-		i++;
-	}
+    i = 0;
+    if (str)
+    {
+        write(2, str, ft_strlen(str));
+        write(2, "\n", 1);
+    }
+    pthread_mutex_destroy(&info->write_lock);
+    pthread_mutex_destroy(&info->meal_lock);
+    pthread_mutex_destroy(&info->dead_lock);
+    while (i < info->philo[0].num_of_philo)
+    {
+        pthread_mutex_destroy(&info->forks[i]);
+        i++;
+    }
 }
 
 // Improved version of sleep function

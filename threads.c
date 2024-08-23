@@ -43,29 +43,29 @@ void	*philo_routine(void *pointer)
 
 // Creates all the threads
 
-int	thread_create(t_info *info, pthread_mutex_t *forks)
+int	thread_create(t_info *info)
 {
-	pthread_t	observer;
-	int			i;
+    pthread_t	observer;
+    int			i;
 
-	if (pthread_create(&observer, NULL, &monitor, info->philo) != 0)
-		destory_all("Thread creation error", info, forks);
-	i = 0;
-	while (i < info->philo[0].num_of_philo)
-	{
-		if (pthread_create(&info->philo[i].thread, NULL, &philo_routine,
-				&info->philo[i]) != 0)
-			destory_all("Thread creation error", info, forks);
-		i++;
-	}
-	i = 0;
-	if (pthread_join(observer, NULL) != 0)
-		destory_all("Thread join error", info, forks);
-	while (i < info->philo[0].num_of_philo)
-	{
-		if (pthread_join(info->philo[i].thread, NULL) != 0)
-			destory_all("Thread join error", info, forks);
-		i++;
-	}
-	return (0);
+    if (pthread_create(&observer, NULL, &monitor, info->philo) != 0)
+        destory_all("Thread creation error", info);
+    i = 0;
+    while (i < info->philo[0].num_of_philo)
+    {
+        if (pthread_create(&info->philo[i].thread, NULL, &philo_routine,
+                &info->philo[i]) != 0)
+            destory_all("Thread creation error", info);
+        i++;
+    }
+    i = 0;
+    if (pthread_join(observer, NULL) != 0)
+        destory_all("Thread join error", info);
+    while (i < info->philo[0].num_of_philo)
+    {
+        if (pthread_join(info->philo[i].thread, NULL) != 0)
+            destory_all("Thread join error", info);
+        i++;
+    }
+    return (0);
 }
