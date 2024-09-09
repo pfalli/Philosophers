@@ -1,4 +1,29 @@
-1. make
-2. ./philo [num of philos] [time to die] [time to eat] time to sleep]
-3. example: ./philo 5 600 200 200
-   
+# Philosophers Project
+
+## How to Run
+
+1. Compile the project:
+    ```bash
+    make
+    ```
+
+2. Execute the program:
+    ```bash
+    ./philo [num_of_philos] [time_to_die] [time_to_eat] [time_to_sleep]
+    ```
+
+3. Example:
+    ```bash
+    ./philo 5 600 200 200
+    ```
+
+## Testing
+
+There is a nice tester from Dantonik:
+[42-philosophers-tester](https://github.com/dantonik/42-philosophers-tester)
+
+### Windows Users
+
+If you are running it on a Windows environment, convert the `./test.sh` file using:
+```bash
+dos2unix test.sh
