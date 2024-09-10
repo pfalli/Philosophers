@@ -27,3 +27,9 @@ There is a nice tester from Dantonik:
 If you are running it on a Windows environment, convert the `./test.sh` file using:
 ```bash
 dos2unix test.sh
+
+### Questions
+
+How do you give the last fork in the circle of the table?
+How do you check if the philo is dead and avoiding to eat?
+Do you switch left or right fork in case they are even or odd?
