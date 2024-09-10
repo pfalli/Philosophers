@@ -21,10 +21,10 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*buffer;
 
-	buffer = (char *)malloc(BUFFER_SIZE + 1); // macro
-	if (buffer == NULL) // fails
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (buffer == NULL)
 		return (NULL);
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0) // good practice vs mem leaks, crash, errors
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
 		free(left_c);
 		free(buffer);
@@ -32,8 +32,6 @@ char	*get_next_line(int fd)
 		buffer = NULL;
 		return (0);
 	}
-	//	if (buffer == NULL)
-	//		return (NULL);
 	line = fill_line_buffer(fd, left_c, buffer);
 	free(buffer);
 	buffer = NULL;
@@ -43,19 +41,6 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 char	*fill_line_buffer(int fd, char *left_c, char *buffer)
 {
 	int		c_read;
@@ -64,23 +49,23 @@ char	*fill_line_buffer(int fd, char *left_c, char *buffer)
 	c_read = 1;
 	while (c_read > 0)
 	{
-		c_read = read(fd, buffer, BUFFER_SIZE); // number of bytes
-		if (c_read == -1) // error
+		c_read = read(fd, buffer, BUFFER_SIZE);
+		if (c_read == -1)
 		{
 			free(left_c);
 			return (0);
 		}
-		if (c_read == 0) // end of file
+		if (c_read == 0)
 			break ;
 		buffer[c_read] = 0;
 		if (!left_c)
-			left_c = ft_strdup(""); // allocate memory for empty string
+			left_c = ft_strdup("");
 		temp = left_c;
 		left_c = ft_strjoin(temp, buffer);
 		free(temp);
 		temp = NULL;
 		if (ft_strchr(buffer, '\n'))
-			break;
+			break ;
 	}
 	return (left_c);
 }
@@ -94,7 +79,7 @@ char	*set_line(char *line)
 	i = 0;
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
-	if (line[i] == 0) // if doesnt find a \n
+	if (line[i] == 0)
 		return (0);
 	left_c = ft_substr(line, i + 1, ft_strlen(line) - i);
 	if (*left_c == 0)

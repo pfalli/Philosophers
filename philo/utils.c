@@ -12,12 +12,11 @@
 
 #include "philo.h"
 
-int one_and_print(char *message)
+int	one_and_print(char *message)
 {
-    ft_printf("%s\n", message);
-    return(1);
+	ft_printf("%s\n", message);
+	return (1);
 }
-
 
 int	ft_isnum(char *str)
 {
@@ -42,6 +41,7 @@ int	ft_usleep(size_t milliseconds)
 		usleep(500);
 	return (0);
 }
+
 // get time in milliseconds
 size_t	get_current_time(void)
 {

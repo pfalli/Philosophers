@@ -1,7 +1,7 @@
 NAME	=  philo
 
 CC			= gcc #-g -lpthread -fsanitize=address
-CFLAGS		= -Wall -Werror -Wextra #-g -lpthread -fsanitize=thread
+CFLAGS		= -Wall -Werror -Wextra -g -lpthread -fsanitize=thread
 RM			= rm -rf
 
 LIBFT = ./libft_full/libft.a
@@ -30,8 +30,9 @@ fclean: clean
 
 re: fclean all
 
+valgrind:
+			valgrind --leak-check=full ./$(NAME) 5 600 200 200
 
-#  to avoid relinking
 .PHONY: all clean fclean re libft
 
 # valgrind --leak-check=full

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "philo.h"
 
 void	print_message(char *str, t_philo *philo, int id)
@@ -23,7 +22,6 @@ void	print_message(char *str, t_philo *philo, int id)
 		printf("%ld %d %s\n", time, id, str);
 	pthread_mutex_unlock(philo->print_lock);
 }
-
 
 int	philosopher_dead(t_philo *philo, int time_to_die)
 {

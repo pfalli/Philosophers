@@ -42,27 +42,27 @@ void	*routine(void *pointer)
 // Creates all the threads
 int	run_threads(t_info *info)
 {
-    pthread_t	observer;
-    int			i;
+	pthread_t	observer;
+	int			i;
 
-    if (pthread_create(&observer, NULL, &monitor, info->philo) != 0)
-        free_mutex("error create observer thread", info);
-    i = 0;
-    while (i < info->philo[0].num_of_philo)
-    {
-        if (pthread_create(&info->philo[i].thread, NULL, &routine,
-                &info->philo[i]) != 0)
-            free_mutex("error create philo threads", info);
-        i++;
-    }
-    i = 0;
-    if (pthread_join(observer, NULL) != 0)
-        free_mutex("error join observer", info);
-    while (i < info->philo[0].num_of_philo)
-    {
-        if (pthread_join(info->philo[i].thread, NULL) != 0)
-            free_mutex("error join philo threads", info);
-        i++;
-    }
-    return (0);
+	if (pthread_create(&observer, NULL, &monitor, info->philo) != 0)
+		free_mutex("error create observer thread", info);
+	i = 0;
+	while (i < info->philo_num)
+	{
+		if (pthread_create(&info->philo[i].thread, NULL, &routine,
+				&info->philo[i]) != 0)
+			free_mutex("error create philo threads", info);
+		i++;
+	}
+	i = 0;
+	if (pthread_join(observer, NULL) != 0)
+		free_mutex("error join observer", info);
+	while (i < info->philo_num)
+	{
+		if (pthread_join(info->philo[i].thread, NULL) != 0)
+			free_mutex("error join philo threads", info);
+		i++;
+	}
+	return (0);
 }
