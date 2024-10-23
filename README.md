@@ -30,6 +30,7 @@ dos2unix test.sh
 
 ### Questions
 
+test: philo 5 610 200 100
 How do you give the last fork in the circle of the table?
 How do you check if the philo is dead and avoiding to eat?
 Do you switch left or right fork in case they are even or odd?
